@@ -1,0 +1,38 @@
+﻿<Window x:Class="NakupniSeznam.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:NakupniSeznam"
+        Title="Nákupní seznam" Height="350" Width="400">
+    <Window.DataContext>
+        <local:NakupniSeznamViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBox Text="{Binding NovaPolozkaNazev, UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="5"/>
+            <TextBox Text="{Binding NovaPolozkaMnozstvi, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="5"/>
+            <Button Content="Přidat" Command="{Binding PridejPolozkuCommand}" Margin="5"/>
+        </StackPanel>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Polozky}" Margin="10">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Nazev}" Width="150"/>
+                        <TextBlock Text="{Binding Mnozstvi}" Width="50"/>
+                        <Button Content="Odebrat" Command="{Binding DataContext.OdeberPolozkuCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Margin="5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Uložit seznam" Command="{Binding UlozSeznamCommand}" Margin="5"/>
+            <Button Content="Načíst seznam" Command="{Binding NactiSeznamCommand}" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>
